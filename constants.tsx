@@ -40,15 +40,6 @@ export const SP_MAP_DATA: MapData = {
   ],
   landmarks: [
     { 
-      id: 'casa_tininha', 
-      name: 'Maison Tininha', 
-      type: 'custom', 
-      coordinates: { lat: -23.5934, lng: -46.7265, x: 310, y: 580 },
-      description: 'Adresse : Rua Dr. Cristiano de Sousa, 122 - Jardim Leonor, São Paulo - SP, 05658-010. Située en Zone Sud, près du Stade Morumbi.',
-      color: '#8b5cf6',
-      symbol: 'home'
-    },
-    { 
       id: 'ambienta', 
       name: 'Bureau Ambienta', 
       type: 'custom', 
