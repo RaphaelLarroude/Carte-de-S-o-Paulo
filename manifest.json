@@ -2,8 +2,8 @@
 {
   "name": "Carte de São Paulo",
   "short_name": "São Paulo",
-  "description": "Explorateur de Carte Illustrée de São Paulo, Brésil",
-  "start_url": "./index.html",
+  "description": "Une carte interactive et illustrée de São Paulo, Brésil.",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#059669",
@@ -13,13 +13,19 @@
       "src": "https://img.icons8.com/color/192/000000/map-marker.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "https://img.icons8.com/color/512/000000/map-marker.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "https://img.icons8.com/color/192/000000/map-marker.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

@@ -261,21 +261,21 @@ const App: React.FC = () => {
                  </div>
                  <div className="flex flex-col">
                    <h3 className="font-black text-slate-800 text-sm tracking-tight">Installer l'application</h3>
-                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Sur votre écran d'accueil</span>
+                   <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Sur l'écran d'accueil</span>
                  </div>
               </div>
               <button onClick={() => setShowInstallHint(false)} className="text-slate-400 hover:text-slate-600 p-1"><X size={18} /></button>
             </div>
             <div className="space-y-4">
                <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                 Ouvrez cette carte en plein écran comme une application native :
+                 Utilisez l'application en plein écran comme une app native :
                </p>
                <div className="flex flex-col gap-3">
                  <div className="flex items-center gap-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                     <div className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-slate-100">
                       <ShareIcon size={16} className="text-blue-600" />
                     </div>
-                    <span className="text-[11px] font-bold text-slate-700 flex-1">1. Appuyez sur le bouton "Partager"</span>
+                    <span className="text-[11px] font-bold text-slate-700 flex-1">1. Appuyez sur le bouton "Partager" (Safari)</span>
                  </div>
                  <div className="flex items-center gap-4 bg-slate-50 p-3 rounded-2xl border border-slate-100">
                     <div className="w-8 h-8 flex items-center justify-center bg-white rounded-lg shadow-sm border border-slate-100">
@@ -460,17 +460,6 @@ const App: React.FC = () => {
                 <Navigation2 size={18} fill="white" />
                 Lancer la Navigation
               </button>
-              
-              <div className="flex items-start gap-2 bg-emerald-50 p-3 rounded-xl border border-emerald-100">
-                <InfoIcon size={14} className="text-emerald-600 mt-0.5" />
-                <p className="text-[10px] text-emerald-800 font-medium leading-relaxed">
-                  {travelMode === 'bus' 
-                    ? "Itinéraires de bus via le Terminal Morumbi ou l'avenue Nações Unidas." 
-                    : travelMode === 'train' 
-                    ? "Utilisation de la Ligne 9-Émeraude (CPTM) avec correspondance."
-                    : "Trajet optimisé via Marginal Pinheiros ou Avenue Morumbi."}
-                </p>
-              </div>
             </div>
           </div>
         )}
