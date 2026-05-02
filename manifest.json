@@ -1,8 +1,8 @@
 
 {
-  "name": "São Paulo Ilustrada",
-  "short_name": "SP Mapa",
-  "description": "Um mapa interativo e artístico de São Paulo, Brasil.",
+  "name": "São Paulo Illustrée",
+  "short_name": "SP Carte",
+  "description": "Une carte interactive et artistique de São Paulo, Brésil.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f8fafc",
