@@ -1,6 +1,6 @@
 {
-  "name": "Explorateur de Carte Illustrée de São Paulo",
-  "description": "Une carte interactive et illustrée de São Paulo, Brésil, présentant les zones principales, les monuments et des informations culturelles.",
+  "name": "Explorador de Mapa Ilustrado de São Paulo",
+  "description": "Um mapa interativo e ilustrado de São Paulo, Brasil, apresentando zonas principais, monumentos e informações culturais geradas por IA.",
   "requestFramePermissions": [
     "geolocation"
   ],
