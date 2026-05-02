@@ -12,7 +12,7 @@ export interface TravelModes {
   bus: RouteInfo;
 }
 
-// Mappage des lignes réelles SPTrans/CPTM depuis la région Morumbi
+// Mapeamento de linhas reais SPTrans/CPTM (Ajustado para Português)
 const TRANSIT_KNOWLEDGE: Record<string, { lines: string[], trainLines?: string[] }> = {
   'paulista': { 
     lines: ['809U-10', '709P-10', '6414-10'], 
@@ -34,6 +34,18 @@ const TRANSIT_KNOWLEDGE: Record<string, { lines: string[], trainLines?: string[]
     lines: ['6451-10', '6450-10'], 
     trainLines: ['Ligne 9-Émeraude', 'Express Tiradentes'] 
   },
+  'casa_christina': {
+    lines: ['746C-10', '746P-10', '807M-10'],
+    trainLines: ['Ligne 5-Lilas (Station Giovanni Gronchi)']
+  },
+  'estacao_morumbi': {
+    lines: ['809P-10', '857A-10', '8700-10'],
+    trainLines: ['Ligne 4-Jaune (Station São Paulo-Morumbi)']
+  },
+  'ambienta': {
+    lines: ['107T-10', '702U-10', '930P-10'],
+    trainLines: ['Ligne 9-Émeraude (Station Cidade Jardim)']
+  },
   'default': {
     lines: ['809P-10', '6412-10'],
     trainLines: ['Ligne 9-Émeraude']
@@ -52,11 +64,41 @@ async function fetchOSRMRoute(lat1: number, lon1: number, lat2: number, lon2: nu
         durationMinutes: Math.round(route.duration / 60),
         geometry: route.geometry
       };
+    } else {
+      // Fallback para linha direta se o OSRM falhar
+      return {
+        distanceKm: parseFloat((calculateDistance(lat1, lon1, lat2, lon2)).toFixed(1)),
+        durationMinutes: Math.round(calculateDistance(lat1, lon1, lat2, lon2) * 2), // Estimativa simples
+        geometry: {
+          type: 'LineString',
+          coordinates: [[lon1, lat1], [lon2, lat2]]
+        }
+      };
     }
   } catch (e) {
-    console.error(`OSRM Error (${profile}):`, e);
+    console.error(`Erro OSRM (${profile}):`, e);
+    // Fallback em caso de erro de rede
+    return {
+      distanceKm: parseFloat((calculateDistance(lat1, lon1, lat2, lon2)).toFixed(1)),
+      durationMinutes: Math.round(calculateDistance(lat1, lon1, lat2, lon2) * 2),
+      geometry: {
+        type: 'LineString',
+        coordinates: [[lon1, lat1], [lon2, lat2]]
+      }
+    };
   }
-  return { distanceKm: 0, durationMinutes: 0 };
+}
+
+// Helper para calcular distância quando OSRM falha
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Raio da Terra em km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
 }
 
 export async function getAllTravelInfo(lat1: number, lon1: number, lat2: number, lon2: number, destinationId?: string): Promise<TravelModes> {

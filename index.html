@@ -1,17 +1,16 @@
+
 <!DOCTYPE html>
-<html lang="fr-FR">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <!-- Viewport ajustado para PWA fullscreen com notch -->
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
                    user-scalable=no, viewport-fit=cover">
 
-    <title>Carte de São Paulo</title>
+    <title>São Paulo</title>
 
     <!-- PWA & iOS Support -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <!-- Opções: default, black, black-translucent -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="São Paulo">
     <meta name="mobile-web-app-capable" content="yes">
@@ -20,7 +19,7 @@
     <!-- Icons & Favicon -->
     <link rel="icon" type="image/svg+xml"
           href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23059669'/%3E%3Cpath d='M8 11 L13 8 L19 11 L24 8 V21 L19 24 L13 21 L8 24 Z' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13 8 V21 M19 11 V24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="https://img.icons8.com/color/192/000000/map-marker.png">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23059669'/%3E%3Cpath d='M45 62 L73 45 L107 62 L135 45 V118 L107 135 L73 118 L45 135 Z' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M73 45 V118 M107 62 V135' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
     <link rel="manifest" href="manifest.json">
 
     <!-- Tailwind & fontes -->
@@ -47,6 +46,7 @@
             -webkit-user-select: none;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            padding-bottom: env(safe-area-inset-bottom);
         }
         .font-display {
             font-family: 'Playfair+Display', serif;
@@ -67,26 +67,19 @@
             background: #cbd5e1;
             border-radius: 10px;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-        }
         @keyframes slideUp {
             from { transform: translateY(100%); }
             to { transform: translateY(0); }
         }
         .animate-sheet {
-            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .marker-container {
-            filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.1));
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 4px 6px rgb(0 0 0 / 0.1));
         }
-        @media print {
-            .no-print { display: none !important; }
-            body, html, #root { height: auto; overflow: visible; }
+        /* Fix for iOS input zoom */
+        input[type="text"], textarea {
+            font-size: 16px !important;
         }
     </style>
 
@@ -104,9 +97,11 @@
       }
     }
     </script>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>

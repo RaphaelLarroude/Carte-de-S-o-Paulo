@@ -11,6 +11,7 @@ export interface Landmark {
   type: 'monument' | 'park' | 'street' | 'river' | 'custom';
   coordinates: { lat: number; lng: number; x?: number; y?: number };
   description: string;
+  category?: 'tourist' | 'personal';
   color?: string;
   symbol?: string; // Novo campo para o ícone
 }
