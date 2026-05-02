@@ -478,7 +478,7 @@ const App: React.FC = () => {
         )}
 
         {/* Floating Controls */}
-        <div className="absolute top-4 right-4 z-[2000] flex flex-col gap-3">
+        <div className="absolute top-20 right-4 z-[2000] flex flex-col gap-3">
           <div className="bg-white/95 backdrop-blur-md p-1.5 rounded-[22px] shadow-xl border border-white flex flex-col gap-1">
             {!isSidebarOpen && (
               <button 
