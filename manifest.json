@@ -8,6 +8,7 @@
   "background_color": "#f8fafc",
   "theme_color": "#059669",
   "orientation": "portrait",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='48' fill='%23059669'/%3E%3Cpath d='M48 66 L78 48 L114 66 L144 48 V126 L114 144 L78 126 L48 144 Z' fill='none' stroke='white' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M78 48 V126 M114 66 V144' fill='none' stroke='white' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E",

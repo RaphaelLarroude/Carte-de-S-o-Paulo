@@ -14,12 +14,19 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="São Paulo">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#059669">
+    <meta name="application-name" content="São Paulo Illustrée">
+    <meta name="theme-color" content="#f8fafc">
+    <meta name="msapplication-TileColor" content="#059669">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no">
 
     <!-- Icons & Favicon -->
     <link rel="icon" type="image/svg+xml"
           href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23059669'/%3E%3Cpath d='M8 11 L13 8 L19 11 L24 8 V21 L19 24 L13 21 L8 24 Z' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13 8 V21 M19 11 V24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23059669'/%3E%3Cpath d='M45 62 L73 45 L107 62 L135 45 V118 L107 135 L73 118 L45 135 Z' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M73 45 V118 M107 62 V135' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="152x152" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 152 152'%3E%3Crect width='152' height='152' rx='34' fill='%23059669'/%3E%3Cpath d='M38 52 L62 38 L90 52 L114 38 V100 L90 114 L62 100 L38 114 Z' fill='none' stroke='white' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="167x167" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 167 167'%3E%3Crect width='167' height='167' rx='37' fill='%23059669'/%3E%3Cpath d='M42 57 L68 42 L99 57 L125 42 V110 L99 125 L68 110 L42 125 Z' fill='none' stroke='white' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23059669'/%3E%3Cpath d='M45 62 L73 45 L107 62 L135 45 V118 L107 135 L73 118 L45 135 Z' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M73 45 V118 M107 62 V135' fill='none' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
     <link rel="manifest" href="manifest.json">
 
     <!-- Tailwind & fontes -->
@@ -46,7 +53,10 @@
             -webkit-user-select: none;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
         .font-display {
             font-family: 'Playfair+Display', serif;
@@ -102,6 +112,24 @@
 <body>
     <div id="root"></div>
     <script type="module" src="index.tsx"></script>
+    <script>
+      // Fix for iOS PWA link navigation
+      (function(document, navigator, standalone) {
+        if ((standalone in navigator) && navigator[standalone]) {
+          var curnode, location = document.location, stop = /^(a|html)$/i;
+          document.addEventListener('click', function(e) {
+            curnode = e.target;
+            while (!(stop).test(curnode.nodeName)) {
+              curnode = curnode.parentNode;
+            }
+            if('href' in curnode && ( curnode.href.indexOf('http') || ~curnode.href.indexOf(location.host) ) && (!curnode.target || curnode.target === '_self')) {
+              e.preventDefault();
+              location.href = curnode.href;
+            }
+          }, false);
+        }
+      })(document, window.navigator, 'standalone');
+    </script>
 <script type="module" src="/index.tsx"></script>
 </body>
 </html>
