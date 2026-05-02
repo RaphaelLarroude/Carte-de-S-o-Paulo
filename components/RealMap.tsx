@@ -154,6 +154,7 @@ const RealMap = forwardRef<{ triggerLocate: () => void }, RealMapProps>(({
   const containerRef = useRef<HTMLDivElement>(null);
   const tileLayerRef = useRef<L.TileLayer | null>(null);
   const userMarkerRef = useRef<L.Marker | null>(null);
+  const userAccuracyRef = useRef<L.Circle | null>(null);
   const pendingMarkerRef = useRef<L.Marker | null>(null);
   const routeLayerRef = useRef<L.LayerGroup | null>(null);
   const customMarkersLayerRef = useRef<L.LayerGroup | null>(null);
@@ -178,6 +179,7 @@ const RealMap = forwardRef<{ triggerLocate: () => void }, RealMapProps>(({
       maxBounds: STATE_BOUNDS,
       maxBoundsViscosity: 1.0, 
       minZoom: 8,
+      tap: true, // Specific for mobile clicks
     }).setView([-23.5505, -46.6333], 11);
     
     mapRef.current = map;
@@ -316,25 +318,77 @@ const RealMap = forwardRef<{ triggerLocate: () => void }, RealMapProps>(({
   }, [mapStyle]);
 
   async function handleLocateMe() {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      alert("La géolocalisation n'est pas supportée par votre navigateur.");
+      return;
+    }
+    
     setIsLocating(true);
+    
+    const options: PositionOptions = {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 0
+    };
+
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const latLng = L.latLng(pos.coords.latitude, pos.coords.longitude);
+        const { latitude, longitude, accuracy } = pos.coords;
+        const latLng = L.latLng(latitude, longitude);
+        
         setIsLocating(false);
         onUserLocationUpdate?.({ lat: latLng.lat, lng: latLng.lng });
+        
         if (mapRef.current) {
+          // Accuracy Circle
+          if (!userAccuracyRef.current) {
+            userAccuracyRef.current = L.circle(latLng, {
+              radius: accuracy,
+              color: '#3b82f6',
+              fillColor: '#3b82f6',
+              fillOpacity: 0.15,
+              weight: 1,
+              interactive: false
+            }).addTo(mapRef.current);
+          } else {
+            userAccuracyRef.current.setLatLng(latLng);
+            userAccuracyRef.current.setRadius(accuracy);
+          }
+
+          // User Marker
           if (!userMarkerRef.current) {
             const icon = L.divIcon({
               className: 'user-pos',
               html: `<div class="relative"><div class="absolute inset-0 w-8 h-8 bg-blue-500/30 rounded-full animate-ping -translate-x-1/2 -translate-y-1/2"></div><div class="w-4 h-4 bg-blue-600 rounded-full border-[3px] border-white -translate-x-1/2 -translate-y-1/2 shadow-lg"></div></div>`,
             });
-            userMarkerRef.current = L.marker(latLng, { icon }).addTo(mapRef.current);
-          } else userMarkerRef.current.setLatLng(latLng);
-          if (!selectedLandmark) mapRef.current.flyTo(latLng, 14);
+            userMarkerRef.current = L.marker(latLng, { icon, zIndexOffset: 1000 }).addTo(mapRef.current);
+          } else {
+            userMarkerRef.current.setLatLng(latLng);
+          }
+
+          if (!selectedLandmark) {
+            mapRef.current.flyTo(latLng, 16, { duration: 1.5 });
+          }
         }
       },
-      () => setIsLocating(false)
+      (error) => {
+        setIsLocating(false);
+        console.error("Erreur de géolocalisation:", error);
+        let message = "Erreur de géolocalisation.";
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            message = "Permission de géolocalisation refusée. Veuillez l'activer dans vos paramètres.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            message = "Position indisponible.";
+            break;
+          case error.TIMEOUT:
+            message = "Délai d'attente dépassé.";
+            break;
+        }
+        alert(message);
+      },
+      options
     );
   }
 
