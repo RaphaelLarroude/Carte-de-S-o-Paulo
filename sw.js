@@ -5,7 +5,6 @@ const ASSETS_TO_CACHE = [
   '/index.html',
   '/manifest.json',
   '/index.css',
-  '/icon.svg',
   'https://cdn.tailwindcss.com',
   'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@700;900&display=swap',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
