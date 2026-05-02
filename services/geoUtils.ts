@@ -12,7 +12,7 @@ export interface TravelModes {
   bus: RouteInfo;
 }
 
-// Mapeamento de linhas reais SPTrans/CPTM (Ajustado para Português)
+// Mapping des lignes réelles SPTrans/CPTM (Ajusté pour le français)
 const TRANSIT_KNOWLEDGE: Record<string, { lines: string[], trainLines?: string[] }> = {
   'paulista': { 
     lines: ['809U-10', '709P-10', '6414-10'], 
@@ -32,7 +32,7 @@ const TRANSIT_KNOWLEDGE: Record<string, { lines: string[], trainLines?: string[]
   },
   'mercadão': { 
     lines: ['6451-10', '6450-10'], 
-    trainLines: ['Ligne 9-Émeraude', 'Express Tiradentes'] 
+    trainLines: ['Ligne 9-Émeraude', 'Expresso Tiradentes'] 
   },
   'casa_christina': {
     lines: ['746C-10', '746P-10', '807M-10'],

@@ -109,7 +109,7 @@ export const SP_MAP_DATA: MapData = {
     },
     { 
       id: 'beco_batman', 
-      name: 'Beco do Batman', 
+      name: 'Allée du Batman', 
       type: 'street', 
       coordinates: { lat: -23.5564, lng: -46.6865, x: 280, y: 580 },
       symbol: 'palette',
@@ -147,7 +147,7 @@ export const SP_MAP_DATA: MapData = {
     },
     { 
       id: 'estacao_morumbi', 
-      name: 'Station Morumbi', 
+      name: 'Gare de Morumbi', 
       type: 'monument', 
       coordinates: { lat: -23.5866, lng: -46.7237 },
       color: '#3b82f6',

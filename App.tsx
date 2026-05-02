@@ -75,7 +75,7 @@ const IconPicker: React.FC<{ selected: string, onSelect: (id: string) => void }>
         <SearchIcon size={12} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
         <input 
           type="text" 
-          placeholder="Rechercher une icône..." 
+          placeholder="Rechercher un icône..." 
           className="w-full pl-8 pr-4 py-2 bg-slate-50 border-none rounded-lg text-xs outline-none focus:ring-1 focus:ring-slate-200"
           value={search}
           onChange={e => setSearch(e.target.value)}
@@ -138,7 +138,7 @@ const App: React.FC = () => {
     const steps = [
       "Initialisation...",
       "Géolocalisation...",
-      "Points iconiques...",
+      "Points emblématiques...",
       "Chargement de la carte..."
     ];
 
@@ -280,7 +280,7 @@ const App: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-900 text-sm">Installer l'App</h3>
-                  <p className="text-[10px] text-slate-500 font-medium">Utilisez-le en plein écran sur votre accueil</p>
+                  <p className="text-[10px] text-slate-500 font-medium">Utilisez en plein écran sur votre écran d'accueil</p>
                 </div>
               </div>
               <button onClick={() => setShowInstallHint(false)} className="p-1 text-slate-400"><X size={18} /></button>
@@ -292,7 +292,7 @@ const App: React.FC = () => {
               </div>
               <div className="flex items-center gap-3 text-xs font-medium text-slate-600 bg-slate-50 p-2.5 rounded-xl">
                 <PlusSquare size={14} className="text-slate-800" />
-                <span>2. "Ajouter à l'écran d'accueil"</span>
+                <span>2. "Sur l'écran d'accueil"</span>
               </div>
             </div>
           </div>
@@ -308,7 +308,7 @@ const App: React.FC = () => {
         fixed inset-y-0 left-0 lg:relative z-[3100]
         bg-white lg:bg-white/80 lg:backdrop-blur-xl border-slate-200
         transition-all duration-300 ease-in-out
-        ${isSidebarOpen ? 'translate-x-0 w-[85%] sm:w-[380px] border-r' : '-translate-x-full w-0 overflow-hidden opacity-0 pointer-events-none border-none'}
+        ${isSidebarOpen ? 'translate-x-0 w-full lg:w-[380px] border-r' : '-translate-x-full w-0 overflow-hidden opacity-0 pointer-events-none border-none'}
       `}>
         <div className="flex flex-col h-full">
           <div className="p-6 flex justify-between items-center border-b border-slate-50">
@@ -349,7 +349,7 @@ const App: React.FC = () => {
                        <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto animate-bounce">
                           <MapPin size={20} />
                        </div>
-                       <p className="text-xs text-emerald-700 font-bold">Touchez la carte pour marquer le lieu</p>
+                       <p className="text-xs text-emerald-700 font-bold">Appuyez sur la carte pour marquer le lieu</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -390,14 +390,14 @@ const App: React.FC = () => {
                         disabled={!newMarkerForm.title} 
                         className="w-full py-4 bg-emerald-600 text-white rounded-xl font-bold active:scale-95 shadow-lg shadow-emerald-100 disabled:opacity-50 disabled:grayscale transition-all mt-2"
                       >
-                        Enregistrer le Lieu
+                        Enregistrer le lieu
                       </button>
                     </div>
                   )}
                 </div>
               )}
             </section>
- 
+  
             <section className="space-y-4">
               <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Mes Lieux</h2>
               <div className="space-y-1.5">
@@ -421,9 +421,9 @@ const App: React.FC = () => {
                 )}
               </div>
             </section>
- 
+  
             <section className="space-y-4">
-              <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Points Touristiques</h2>
+              <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Points d'intérêt</h2>
               <div className="space-y-1.5">
                 {SP_MAP_DATA.landmarks.filter(l => l.category === 'tourist').map((l) => (
                   <button
@@ -469,26 +469,25 @@ const App: React.FC = () => {
 
         {/* Adding mode helper hint */}
         {isAddingMode && !pendingCoords && (
-          <div className="absolute top-20 left-1/2 -translate-x-1/2 z-[2000] pointer-events-none">
+          <div className="absolute top-24 left-1/2 -translate-x-1/2 z-[2000] pointer-events-none px-4 w-full flex justify-center">
             <div className="bg-emerald-600 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 animate-bounce border-2 border-white">
               <MapPin size={18} fill="white" />
-              <span className="font-bold text-sm">Touchez la carte pour marquer</span>
+              <span className="font-bold text-xs sm:text-sm">Appuyez sur la carte pour marquer</span>
             </div>
           </div>
         )}
 
         {/* Floating Controls */}
         <div className="absolute top-4 right-4 z-[2000] flex flex-col gap-3">
-          {!isSidebarOpen && (
-            <button 
-              onClick={() => setIsSidebarOpen(true)}
-              className="bg-white shadow-xl p-3.5 rounded-2xl border border-white active:scale-95 transition-all"
-            >
-              <Menu size={22} className="text-slate-800" />
-            </button>
-          )}
-          
           <div className="bg-white/95 backdrop-blur-md p-1.5 rounded-[22px] shadow-xl border border-white flex flex-col gap-1">
+            {!isSidebarOpen && (
+              <button 
+                onClick={() => setIsSidebarOpen(true)}
+                className="p-3 rounded-[16px] text-slate-600 hover:bg-slate-50 transition-all active:scale-95"
+              >
+                <Menu size={20} />
+              </button>
+            )}
             <button onClick={() => setMapStyle('standard')} className={`p-3 rounded-[16px] transition-all ${mapStyle === 'standard' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' : 'text-slate-400 hover:bg-slate-50'}`}>
               <MapIcon size={20} />
             </button>
@@ -501,7 +500,7 @@ const App: React.FC = () => {
         {/* Route HUD (Waze Style Menu) */}
         {travelData && (
           <div className="absolute top-4 left-4 right-16 lg:left-6 lg:right-auto z-[2000] lg:w-96 pointer-events-none">
-            <div className="bg-white rounded-[28px] shadow-2xl border border-slate-100 overflow-hidden pointer-events-auto flex flex-col">
+            <div className="bg-white rounded-[28px] shadow-2xl border border-slate-100 overflow-hidden pointer-events-auto flex flex-col transition-all">
               {/* Waze-style Top Header */}
               <div className="bg-blue-500 p-4 flex justify-between items-center text-white">
                 <div className="flex items-center gap-2">
@@ -518,68 +517,68 @@ const App: React.FC = () => {
                 </button>
               </div>
 
-              <div className="p-5 space-y-5">
+              <div className="p-5 space-y-4">
                 {/* Mode Selector */}
                 <div className="flex gap-2 bg-slate-50 p-1.5 rounded-2xl border border-slate-100">
-                  <button onClick={() => setTravelMode('car')} className={`flex-1 flex flex-col items-center py-2.5 rounded-xl transition-all ${travelMode === 'car' ? 'bg-white shadow-sm text-blue-600 ring-1 ring-slate-200' : 'text-slate-400'}`}>
+                  <button onClick={() => setTravelMode('car')} className={`flex-1 flex flex-col items-center py-2 rounded-xl transition-all ${travelMode === 'car' ? 'bg-white shadow-sm text-blue-600 ring-1 ring-slate-200' : 'text-slate-400'}`}>
                     <Car size={18} fill={travelMode === 'car' ? "currentColor" : "none"}/><span className="text-[9px] font-bold mt-1">Voiture</span>
                   </button>
-                  <button onClick={() => setTravelMode('train')} className={`flex-1 flex flex-col items-center py-2.5 rounded-xl transition-all ${travelMode === 'train' ? 'bg-white shadow-sm text-indigo-600 ring-1 ring-slate-200' : 'text-slate-400'}`}>
+                  <button onClick={() => setTravelMode('train')} className={`flex-1 flex flex-col items-center py-2 rounded-xl transition-all ${travelMode === 'train' ? 'bg-white shadow-sm text-indigo-600 ring-1 ring-slate-200' : 'text-slate-400'}`}>
                     <TrainFront size={18} fill={travelMode === 'train' ? "currentColor" : "none"}/><span className="text-[9px] font-bold mt-1">Métro</span>
                   </button>
-                  <button onClick={() => setTravelMode('bus')} className={`flex-1 flex flex-col items-center py-2.5 rounded-xl transition-all ${travelMode === 'bus' ? 'bg-white shadow-sm text-amber-500 ring-1 ring-slate-200' : 'text-slate-400'}`}>
+                  <button onClick={() => setTravelMode('bus')} className={`flex-1 flex flex-col items-center py-2 rounded-xl transition-all ${travelMode === 'bus' ? 'bg-white shadow-sm text-amber-500 ring-1 ring-slate-200' : 'text-slate-400'}`}>
                     <Bus size={18} fill={travelMode === 'bus' ? "currentColor" : "none"}/><span className="text-[9px] font-bold mt-1">Bus</span>
                   </button>
                 </div>
  
                 {/* Stats & Traffic */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-slate-50 p-4 rounded-2xl flex flex-col items-center justify-center border border-slate-100/50">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Temps estimé</p>
-                    <div className="flex items-center gap-1.5">
-                      <Clock size={16} className="text-blue-500" />
-                      <p className="text-xl font-black text-slate-800">{travelData[travelMode].durationMinutes}m</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-slate-50 p-3 rounded-2xl flex flex-col items-center justify-center border border-slate-100/50">
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Temps est.</p>
+                    <div className="flex items-center gap-1">
+                      <Clock size={14} className="text-blue-500" />
+                      <p className="text-lg font-black text-slate-800">{travelData[travelMode].durationMinutes}m</p>
                     </div>
                   </div>
-                  <div className="bg-slate-50 p-4 rounded-2xl flex flex-col items-center justify-center border border-slate-100/50">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Distance</p>
-                    <div className="flex items-center gap-1.5">
-                      <Compass size={16} className="text-slate-500" />
-                      <p className="text-xl font-black text-slate-800">{travelData[travelMode].distanceKm} <span className="text-xs font-bold text-slate-400 uppercase">km</span></p>
+                  <div className="bg-slate-50 p-3 rounded-2xl flex flex-col items-center justify-center border border-slate-100/50">
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest mb-1">Distance</p>
+                    <div className="flex items-center gap-1">
+                      <Compass size={14} className="text-slate-500" />
+                      <p className="text-lg font-black text-slate-800">{travelData[travelMode].distanceKm} <span className="text-[10px] font-bold text-slate-400 uppercase">km</span></p>
                     </div>
                   </div>
                 </div>
 
                 {/* Simulated Traffic Info */}
-                <div className="flex items-center gap-3 p-3 bg-emerald-50 text-emerald-700 rounded-xl text-xs font-bold border border-emerald-100">
-                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                <div className="flex items-center gap-3 p-3 bg-emerald-50 text-emerald-700 rounded-xl text-[10px] font-bold border border-emerald-100">
+                  <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                   <span>Trafic fluide sur votre trajet</span>
                 </div>
 
                 {/* Transit Lines Section */}
                 {(travelMode === 'train' || travelMode === 'bus') && travelData[travelMode].lines && travelData[travelMode].lines!.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-1">Lignes & Connexions</p>
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-1">Lignes & Correspondances</p>
                     <div className="flex flex-wrap gap-1.5">
                       {travelData[travelMode].lines?.map((line, idx) => (
-                        <div key={idx} className={`px-3 py-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1.5 shadow-sm border ${
+                        <div key={idx} className={`px-2.5 py-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1.5 shadow-sm border ${
                           travelMode === 'train' ? 'bg-indigo-50 border-indigo-100 text-indigo-700' : 'bg-amber-50 border-amber-100 text-amber-700'
                         }`}>
-                          {travelMode === 'train' ? <TrainFront size={12} /> : <Bus size={12} />}
+                          {travelMode === 'train' ? <TrainFront size={11} /> : <Bus size={11} />}
                           {line}
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
- 
-                <div className="flex flex-col gap-2 pt-2">
-                  <button onClick={openInWaze} className="w-full flex items-center justify-center gap-3 py-4 bg-sky-400 text-white rounded-2xl font-black text-sm shadow-lg shadow-sky-100 active:scale-95 transition-all">
-                    <Navigation2 size={20} fill="white" />
-                    Ouvrir avec Waze
+
+                <div className="flex flex-col gap-2 pt-1">
+                  <button onClick={openInWaze} className="w-full flex items-center justify-center gap-3 py-3.5 bg-sky-400 text-white rounded-2xl font-black text-sm shadow-lg shadow-sky-100 active:scale-95 transition-all">
+                    <Navigation2 size={18} fill="white" />
+                    Ouvrir dans Waze
                   </button>
-                  <button onClick={openInGoogleMaps} className="w-full py-4 text-slate-400 font-bold text-[11px] uppercase tracking-widest active:opacity-70 transition-all">
-                    Ou avec Google Maps
+                  <button onClick={openInGoogleMaps} className="w-full py-3 text-slate-400 font-bold text-[10px] uppercase tracking-widest active:opacity-70 transition-all">
+                    Ouvrir dans Google Maps
                   </button>
                 </div>
               </div>
@@ -589,29 +588,33 @@ const App: React.FC = () => {
 
         {/* Selection Details Sheet */}
         {selectedLandmark && !travelData && (
-          <div className={`fixed inset-x-0 bottom-8 z-[4000] ${isSidebarOpen ? 'lg:left-[380px]' : 'lg:left-0'} px-6 pointer-events-none transition-all duration-300`}>
-            <div className="bg-white/95 backdrop-blur-xl rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-white pointer-events-auto overflow-hidden w-full max-w-2xl mx-auto transform transition-all duration-300">
-               <div className="p-8 space-y-6">
+          <div className={`fixed inset-x-0 bottom-0 lg:bottom-8 z-[4000] ${isSidebarOpen ? 'lg:left-[380px]' : 'lg:left-0'} lg:px-6 pointer-events-none transition-all duration-300`}>
+            <div className="bg-white/95 backdrop-blur-xl rounded-t-[40px] lg:rounded-[40px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] lg:shadow-[0_20px_50px_rgba(0,0,0,0.15)] border-t lg:border border-white pointer-events-auto overflow-hidden w-full max-w-2xl mx-auto transform transition-all duration-300">
+               {/* Mobile Drag Handle */}
+               <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 lg:hidden opacity-50" />
+               
+               <div className="p-6 lg:p-8 space-y-5 lg:space-y-6">
                   {/* Landmark Header */}
                   <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-[22px] text-white shadow-lg flex items-center justify-center shrink-0" style={{ backgroundColor: (selectedLandmark as any).color || '#10b981' }}>
-                      {getSymbolIcon((selectedLandmark as any).symbol || 'map-pin', 28)}
+                    <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-2xl lg:rounded-[22px] text-white shadow-lg flex items-center justify-center shrink-0" style={{ backgroundColor: (selectedLandmark as any).color || '#10b981' }}>
+                      {getSymbolIcon((selectedLandmark as any).symbol || 'map-pin', window.innerWidth < 640 ? 20 : 28)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h2 className="text-2xl font-black text-slate-900 leading-tight truncate">{selectedLandmark.name}</h2>
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1 flex items-center gap-2">
+                      <h2 className="text-xl lg:text-2xl font-black text-slate-900 leading-tight truncate">{selectedLandmark.name}</h2>
+                      <p className="text-[9px] lg:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1 flex items-center gap-2">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                         {selectedLandmark.type === 'custom' ? 'LIEU ENREGISTRÉ' : 'POINT D\'INTÉRÊT'}
                       </p>
                     </div>
-                    <button onClick={() => {setSelectedLandmark(null); setTravelData(null);}} className="p-3 hover:bg-slate-100 rounded-full text-slate-300 transition-colors">
-                      <X size={24} />
+                    <button onClick={() => {setSelectedLandmark(null); setTravelData(null);}} className="p-2 lg:p-3 hover:bg-slate-100 rounded-full text-slate-300 transition-colors">
+                      <X size={20} className="lg:hidden" />
+                      <X size={24} className="hidden lg:block" />
                     </button>
                   </div>
                   
                   {/* Description Box */}
-                  <div className="bg-slate-50/50 p-6 rounded-[28px] border border-slate-100">
-                    <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                  <div className="bg-slate-50/50 p-4 lg:p-6 rounded-[28px] border border-slate-100">
+                    <p className="text-slate-600 text-xs lg:text-sm leading-relaxed font-medium">
                       {selectedLandmark.description || "Aucune description disponible pour ce lieu."}
                     </p>
                   </div>
@@ -621,27 +624,27 @@ const App: React.FC = () => {
                      <button 
                         onClick={calculateRouteToSelected}
                         disabled={isCalculating}
-                        className="flex-[2] flex items-center justify-center gap-3 py-5 bg-blue-600 text-white rounded-[24px] font-black text-sm shadow-[0_10px_25px_rgba(37,99,235,0.3)] active:scale-95 transition-all disabled:opacity-50"
+                        className="flex-[2] flex items-center justify-center gap-2 lg:gap-3 py-4 lg:py-5 bg-blue-600 text-white rounded-2xl lg:rounded-[24px] font-black text-xs lg:text-sm shadow-[0_10px_25px_rgba(37,99,235,0.3)] active:scale-95 transition-all disabled:opacity-50"
                      >
                         {isCalculating ? (
-                          <Loader2 className="animate-spin" size={20} />
+                          <Loader2 className="animate-spin" size={18} />
                         ) : (
-                          <Navigation size={20} fill="white" />
+                          <Navigation size={18} fill="white" />
                         )}
-                        <span>{isCalculating ? 'CALCUL...' : "Voir l'Itinéraire"}</span>
+                        <span>{isCalculating ? 'CALCUL...' : "Voir l'itinéraire"}</span>
                      </button>
                      
                      {selectedLandmark.type === 'custom' ? (
-                        <button onClick={() => { setCustomMarkers(customMarkers.filter(m => m.id !== selectedLandmark.id)); setSelectedLandmark(null); }} className="flex-1 flex items-center justify-center py-5 bg-red-50 text-red-500 rounded-[24px] font-black text-sm border border-red-100 active:scale-95 transition-all">
-                          <Trash2 size={20} />
+                        <button onClick={() => { setCustomMarkers(customMarkers.filter(m => m.id !== selectedLandmark.id)); setSelectedLandmark(null); }} className="flex-1 flex items-center justify-center py-4 lg:py-5 bg-red-50 text-red-500 rounded-2xl lg:rounded-[24px] font-black text-xs lg:text-sm border border-red-100 active:scale-95 transition-all">
+                          <Trash2 size={18} />
                         </button>
                      ) : (
                         <a 
                           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedLandmark.name + ' São Paulo')}`} 
                           target="_blank" 
-                          className="flex-1 flex items-center justify-center gap-2 py-5 bg-[#d1FAE5] text-[#065F46] rounded-[24px] font-black text-sm shadow-[0_10px_25px_rgba(16,185,129,0.1)] active:scale-95 transition-all"
+                          className="flex-1 flex items-center justify-center gap-2 py-4 lg:py-5 bg-[#d1FAE5] text-[#065F46] rounded-2xl lg:rounded-[24px] font-black text-xs lg:text-sm shadow-[0_10px_25px_rgba(16,185,129,0.1)] active:scale-95 transition-all"
                         >
-                          <ExternalLink size={20} />
+                          <ExternalLink size={18} />
                           <span>Maps</span>
                         </a>
                      )}
@@ -652,12 +655,12 @@ const App: React.FC = () => {
         )}
 
         {/* Floating User Location Button */}
-        <div className="absolute bottom-10 right-6 z-[2000]">
+        <div className="absolute bottom-10 right-6 lg:bottom-12 lg:right-8 z-[2000]">
           <button 
             onClick={() => mapRef.current?.triggerLocate()}
-            className="w-14 h-14 bg-white/95 backdrop-blur-md rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-white flex items-center justify-center text-slate-800 active:scale-95 transition-all group"
+            className="w-14 h-14 lg:w-16 lg:h-16 bg-white shadow-[0_10px_40px_rgba(0,0,0,0.15)] rounded-full border border-white flex items-center justify-center text-slate-800 active:scale-90 transition-all transform hover:scale-105"
           >
-            <Navigation2 className="rotate-45 group-active:scale-90 transition-transform" size={22} fill="currentColor" />
+            <Navigation2 className="rotate-45" size={24} fill="currentColor" />
           </button>
         </div>
       </main>

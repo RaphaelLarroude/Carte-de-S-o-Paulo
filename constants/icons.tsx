@@ -103,7 +103,7 @@ export const ICON_CATEGORIES = [
   },
   {
     id: 'shopping',
-    name: 'Achats',
+    name: 'Shopping',
     icons: [
       { id: 'shopping-cart', Icon: ShoppingCart },
       { id: 'shopping-bag', Icon: ShoppingBag },

@@ -341,13 +341,6 @@ const RealMap = forwardRef<{ triggerLocate: () => void }, RealMapProps>(({
   return (
     <div className={`relative w-full h-full ${isAddingMode ? 'cursor-crosshair' : ''}`}>
       <div ref={containerRef} className="w-full h-full" />
-      {/* Location button - adjusted for mobile safety */}
-      <button 
-        onClick={handleLocateMe} 
-        className="absolute z-[1000] bottom-24 lg:bottom-10 right-4 bg-white shadow-2xl p-4 rounded-2xl border border-white hover:bg-slate-50 active:scale-90 transition-all"
-      >
-        <Navigation size={24} className={isLocating ? 'animate-pulse' : ''} fill={userMarkerRef.current ? '#2563eb' : 'none'} />
-      </button>
     </div>
   );
 });
