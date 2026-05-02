@@ -369,7 +369,7 @@ const App: React.FC = () => {
                       
                       <div className="space-y-2">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-1">Couleur</span>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2 items-center">
                           {COLORS.map((c) => (
                             <button 
                               key={c.hex} 
@@ -378,6 +378,16 @@ const App: React.FC = () => {
                               className={`w-6 h-6 rounded-full border-2 transition-transform ${newMarkerForm.color === c.hex ? 'border-slate-900 scale-110' : 'border-transparent active:scale-90'}`}
                             />
                           ))}
+                          <label className="flex items-center gap-2 text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 cursor-pointer">
+                            <input
+                              type="color"
+                              value={newMarkerForm.color}
+                              onChange={e => setNewMarkerForm({...newMarkerForm, color: e.target.value})}
+                              className="w-8 h-8 p-0 border-0 bg-transparent cursor-pointer"
+                              aria-label="Couleur personnalisée"
+                            />
+                            <span>Autre</span>
+                          </label>
                         </div>
                       </div>
                       <div className="space-y-2">
