@@ -306,17 +306,20 @@ const App: React.FC = () => {
 
       <aside className={`
         fixed inset-y-0 left-0 lg:relative z-[3100]
-        bg-white lg:bg-white/80 lg:backdrop-blur-xl border-r border-slate-200
-        transition-transform duration-300 ease-out
-        ${isSidebarOpen ? 'translate-x-0 w-[85%] sm:w-[380px]' : '-translate-x-full lg:translate-x-0 w-0 lg:w-[380px]'}
+        bg-white lg:bg-white/80 lg:backdrop-blur-xl border-slate-200
+        transition-all duration-300 ease-in-out
+        ${isSidebarOpen ? 'translate-x-0 w-[85%] sm:w-[380px] border-r' : '-translate-x-full w-0 overflow-hidden opacity-0 pointer-events-none border-none'}
       `}>
         <div className="flex flex-col h-full">
-          <div className="p-6 flex justify-between items-center border-b border-slate-100">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-white">
-                <MapIcon size={16} />
+          <div className="p-6 flex justify-between items-center border-b border-slate-50">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#00a86b] rounded-xl flex items-center justify-center text-white shadow-sm">
+                <MapIcon size={20} />
               </div>
-              <h1 className="font-display text-xl font-black text-slate-800">São Paulo</h1>
+              <div className="flex flex-col">
+                <h1 className="font-display text-lg font-black text-slate-800 leading-none">São</h1>
+                <h1 className="font-display text-lg font-black text-slate-800 leading-none">Paulo</h1>
+              </div>
             </div>
             <button onClick={() => setIsSidebarOpen(false)} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400">
               <ChevronLeft size={20} />
@@ -429,7 +432,9 @@ const App: React.FC = () => {
                     className={`w-full flex items-center justify-between p-3.5 rounded-xl border transition-all ${selectedLandmark?.id === l.id ? 'bg-emerald-50 border-emerald-200 text-emerald-900 shadow-sm ring-1 ring-emerald-500/20' : 'bg-white border-slate-100 text-slate-600 active:bg-slate-50'}`}
                   >
                     <div className="flex items-center gap-3 truncate">
-                      <MapPin size={16} className="text-emerald-500" />
+                      <div className="text-emerald-500">
+                        {getSymbolIcon(l.symbol || 'map-pin', 16)}
+                      </div>
                       <span className="font-bold text-xs truncate">{l.name}</span>
                     </div>
                     <ChevronRight size={14} className="opacity-30" />
@@ -444,6 +449,7 @@ const App: React.FC = () => {
       <main className="flex-1 relative bg-slate-50 overflow-hidden">
         <RealMap 
           ref={mapRef}
+          isSidebarOpen={isSidebarOpen}
           onLandmarkClick={handleLandmarkClick}
           onCustomLandmarkClick={handleCustomLandmarkClick}
           mapStyle={mapStyle}
@@ -473,12 +479,14 @@ const App: React.FC = () => {
 
         {/* Floating Controls */}
         <div className="absolute top-4 right-4 z-[2000] flex flex-col gap-3">
-          <button 
-            onClick={() => setIsSidebarOpen(true)}
-            className="lg:hidden bg-white shadow-xl p-3.5 rounded-2xl border border-white active:scale-95"
-          >
-            <Menu size={22} className="text-slate-800" />
-          </button>
+          {!isSidebarOpen && (
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="bg-white shadow-xl p-3.5 rounded-2xl border border-white active:scale-95 transition-all"
+            >
+              <Menu size={22} className="text-slate-800" />
+            </button>
+          )}
           
           <div className="bg-white/95 backdrop-blur-md p-1.5 rounded-[22px] shadow-xl border border-white flex flex-col gap-1">
             <button onClick={() => setMapStyle('standard')} className={`p-3 rounded-[16px] transition-all ${mapStyle === 'standard' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' : 'text-slate-400 hover:bg-slate-50'}`}>
@@ -579,64 +587,79 @@ const App: React.FC = () => {
           </div>
         )}
 
-        {/* Selected Landmark Bottom Sheet */}
+        {/* Selection Details Sheet */}
         {selectedLandmark && !travelData && (
-          <div className="fixed inset-x-0 bottom-0 z-[4000] lg:left-[380px] p-3 pointer-events-none">
-            <div className="bg-white rounded-[32px] shadow-2xl border border-slate-200 pointer-events-auto overflow-hidden w-full max-w-xl mx-auto animate-sheet">
-               {/* Handle indicator */}
-               <div className="w-12 h-1 bg-slate-200 rounded-full mx-auto mt-3 mb-1" />
-               
-               <div className="p-6 pt-2 space-y-5">
-                  <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl text-white shadow-lg flex items-center justify-center" style={{ backgroundColor: selectedLandmark.type === 'custom' ? (selectedLandmark as CustomMarker).color : '#059669' }}>
-                        {selectedLandmark.type === 'custom' ? getSymbolIcon((selectedLandmark as CustomMarker).symbol, 20) : <MapPin size={20} />}
-                      </div>
-                      <div>
-                        <h2 className="text-lg font-black text-slate-900 leading-tight">{selectedLandmark.name}</h2>
-                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mt-0.5">
-                          {selectedLandmark.type === 'custom' ? 'Lieu Enregistré' : 'Point d\'intérêt'}
-                        </p>
-                      </div>
+          <div className={`fixed inset-x-0 bottom-8 z-[4000] ${isSidebarOpen ? 'lg:left-[380px]' : 'lg:left-0'} px-6 pointer-events-none transition-all duration-300`}>
+            <div className="bg-white/95 backdrop-blur-xl rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-white pointer-events-auto overflow-hidden w-full max-w-2xl mx-auto transform transition-all duration-300">
+               <div className="p-8 space-y-6">
+                  {/* Landmark Header */}
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-[22px] text-white shadow-lg flex items-center justify-center shrink-0" style={{ backgroundColor: (selectedLandmark as any).color || '#10b981' }}>
+                      {getSymbolIcon((selectedLandmark as any).symbol || 'map-pin', 28)}
                     </div>
-                    <button onClick={() => {setSelectedLandmark(null); setTravelData(null);}} className="p-2 bg-slate-50 rounded-full text-slate-400"><X size={20} /></button>
-                  </div>
-                  
-                  <div className="space-y-5">
-                    <div className="bg-slate-50/80 p-5 rounded-[24px] max-h-[30vh] overflow-y-auto custom-scrollbar border border-slate-100">
-                      <p className="text-slate-700 text-xs leading-relaxed font-medium">
-                        {selectedLandmark.description}
+                    <div className="flex-1 min-w-0">
+                      <h2 className="text-2xl font-black text-slate-900 leading-tight truncate">{selectedLandmark.name}</h2>
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        {selectedLandmark.type === 'custom' ? 'LIEU ENREGISTRÉ' : 'POINT D\'INTÉRÊT'}
                       </p>
                     </div>
- 
-                    <div className="flex gap-2">
-                       <button 
-                          onClick={calculateRouteToSelected}
-                          disabled={isCalculating}
-                          className="flex-[1.5] flex items-center justify-center gap-2 py-4 bg-blue-600 text-white rounded-[20px] font-bold text-sm shadow-xl active:scale-95 transition-all disabled:opacity-50"
-                       >
-                          {isCalculating ? (
-                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          ) : (
-                            <Navigation size={18} fill="white" />
-                          )}
-                          <span className="truncate">{isCalculating ? 'Calcul...' : "Voir l'Itinéraire"}</span>
-                       </button>
-                       {selectedLandmark.type === 'custom' ? (
-                          <button onClick={() => { setCustomMarkers(customMarkers.filter(m => m.id !== selectedLandmark.id)); setSelectedLandmark(null); }} className="flex-1 py-4 text-red-500 font-bold border border-red-50 rounded-[20px] bg-red-50/50 active:scale-95 flex items-center justify-center gap-2">
-                            <Trash2 size={18} />
-                          </button>
-                       ) : (
-                          <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedLandmark.name + ' São Paulo')}`} target="_blank" className="flex-1 flex items-center justify-center gap-2 py-4 bg-emerald-100 text-emerald-700 rounded-[20px] font-bold text-sm border border-emerald-200 active:scale-95">
-                              <ExternalLink size={18} /> Maps
-                          </a>
-                       )}
-                    </div>
+                    <button onClick={() => {setSelectedLandmark(null); setTravelData(null);}} className="p-3 hover:bg-slate-100 rounded-full text-slate-300 transition-colors">
+                      <X size={24} />
+                    </button>
+                  </div>
+                  
+                  {/* Description Box */}
+                  <div className="bg-slate-50/50 p-6 rounded-[28px] border border-slate-100">
+                    <p className="text-slate-600 text-sm leading-relaxed font-medium">
+                      {selectedLandmark.description || "Aucune description disponible pour ce lieu."}
+                    </p>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-3">
+                     <button 
+                        onClick={calculateRouteToSelected}
+                        disabled={isCalculating}
+                        className="flex-[2] flex items-center justify-center gap-3 py-5 bg-blue-600 text-white rounded-[24px] font-black text-sm shadow-[0_10px_25px_rgba(37,99,235,0.3)] active:scale-95 transition-all disabled:opacity-50"
+                     >
+                        {isCalculating ? (
+                          <Loader2 className="animate-spin" size={20} />
+                        ) : (
+                          <Navigation size={20} fill="white" />
+                        )}
+                        <span>{isCalculating ? 'CALCUL...' : "Voir l'Itinéraire"}</span>
+                     </button>
+                     
+                     {selectedLandmark.type === 'custom' ? (
+                        <button onClick={() => { setCustomMarkers(customMarkers.filter(m => m.id !== selectedLandmark.id)); setSelectedLandmark(null); }} className="flex-1 flex items-center justify-center py-5 bg-red-50 text-red-500 rounded-[24px] font-black text-sm border border-red-100 active:scale-95 transition-all">
+                          <Trash2 size={20} />
+                        </button>
+                     ) : (
+                        <a 
+                          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedLandmark.name + ' São Paulo')}`} 
+                          target="_blank" 
+                          className="flex-1 flex items-center justify-center gap-2 py-5 bg-[#d1FAE5] text-[#065F46] rounded-[24px] font-black text-sm shadow-[0_10px_25px_rgba(16,185,129,0.1)] active:scale-95 transition-all"
+                        >
+                          <ExternalLink size={20} />
+                          <span>Maps</span>
+                        </a>
+                     )}
                   </div>
                </div>
             </div>
           </div>
         )}
+
+        {/* Floating User Location Button */}
+        <div className="absolute bottom-10 right-6 z-[2000]">
+          <button 
+            onClick={() => mapRef.current?.triggerLocate()}
+            className="w-14 h-14 bg-white/95 backdrop-blur-md rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-white flex items-center justify-center text-slate-800 active:scale-95 transition-all group"
+          >
+            <Navigation2 className="rotate-45 group-active:scale-90 transition-transform" size={22} fill="currentColor" />
+          </button>
+        </div>
       </main>
     </div>
   );

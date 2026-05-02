@@ -19,6 +19,7 @@ interface RealMapProps {
   onUserLocationUpdate?: (coords: {lat: number, lng: number} | null) => void;
   routeGeometry?: any;
   routeColor?: string;
+  isSidebarOpen?: boolean;
 }
 
 const TILE_LAYERS = {
@@ -127,6 +128,7 @@ const SYMBOL_PATHS: Record<string, string> = {
   'lamp': '<path d="M8 2h8a4 4 0 0 1 4 4v1a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V6a4 4 0 0 1 4-4Z"></path><path d="M12 11v8"></path><path d="M8 22h8"></path>',
   'key': '<circle cx="7.5" cy="15.5" r="5.5"></circle><path d="m21 2-9.6 9.6"></path><path d="m15.5 7.5 3 3L22 7l-3-3"></path>',
   'unlock': '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path>',
+  'theater': '<path d="M2 13a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"></path><path d="m11 15 1-2 1 2"></path><path d="M12 21v-3"></path><path d="M14 6c0-1.1-.9-2-2-2s-2 .9-2 2"></path><path d="M18 15h.01"></path><path d="M6 15h.01"></path>',
   'ghost': '<path d="M9 10h.01"></path><path d="M15 10h.01"></path><path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8Z"></path>',
   'skull': '<circle cx="9" cy="12" r="1"></circle><circle cx="15" cy="12" r="1"></circle><path d="M8 20v2h8v-2a4 4 0 0 0-8 0Z"></path><path d="M12 2h.01a8 8 0 0 0 4 15v3H8v-3A8 8 0 0 0 12 2Z"></path>'
 };
@@ -145,7 +147,8 @@ const RealMap = forwardRef<{ triggerLocate: () => void }, RealMapProps>(({
   selectedLandmark,
   onUserLocationUpdate,
   routeGeometry,
-  routeColor = '#3b82f6'
+  routeColor = '#3b82f6',
+  isSidebarOpen
 }, ref) => {
   const mapRef = useRef<L.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -199,7 +202,7 @@ const RealMap = forwardRef<{ triggerLocate: () => void }, RealMapProps>(({
       const iconPath = SYMBOL_PATHS[landmark.symbol || 'map-pin'] || SYMBOL_PATHS['map-pin'];
       const icon = L.divIcon({
         className: 'custom-marker',
-        html: `<div class="marker-container"><div style="background-color: ${landmark.color || '#059669'}" class="w-9 h-9 rounded-[12px] border-2 border-white shadow-xl flex items-center justify-center text-white"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">${iconPath}</svg></div></div>`,
+        html: `<div class="marker-container"><div style="background-color: ${landmark.color || '#10b981'}" class="w-9 h-9 rounded-[12px] border-2 border-white shadow-xl flex items-center justify-center text-white"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">${iconPath}</svg></div></div>`,
         iconSize: [36, 36],
         iconAnchor: [18, 36],
       });
@@ -214,6 +217,14 @@ const RealMap = forwardRef<{ triggerLocate: () => void }, RealMapProps>(({
     map.on('click', (e) => onMapClickRef.current(e.latlng));
     return () => { if (mapRef.current) mapRef.current.remove(); mapRef.current = null; };
   }, []);
+
+  useEffect(() => {
+    if (mapRef.current) {
+      setTimeout(() => {
+        if (mapRef.current) mapRef.current.invalidateSize({ animate: true });
+      }, 300); // Wait for transition
+    }
+  }, [isSidebarOpen]);
 
   useEffect(() => {
     if (mapRef.current && selectedLandmark && !routeGeometry) {

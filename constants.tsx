@@ -49,6 +49,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Avenue Paulista', 
       type: 'street', 
       coordinates: { lat: -23.5614, lng: -46.6559, x: 420, y: 560 },
+      symbol: 'navigation',
       description: 'Le cœur financier et culturel de São Paulo, célèbre pour ses musées et ses gratte-ciel.',
       category: 'tourist'
     },
@@ -57,6 +58,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Cathédrale de la Sé', 
       type: 'monument', 
       coordinates: { lat: -23.5504, lng: -46.6339, x: 500, y: 500 },
+      symbol: 'landmark',
       description: 'Le point zéro de la ville, l\'un des plus grands temples néogothiques au monde.',
       category: 'tourist'
     },
@@ -65,6 +67,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Parc d\'Ibirapuera', 
       type: 'park', 
       coordinates: { lat: -23.5874, lng: -46.6576, x: 480, y: 720 },
+      symbol: 'mountain',
       description: 'Le parc le plus important de la ville, avec des lacs, des musées et des pistes cyclables.',
       category: 'tourist'
     },
@@ -73,6 +76,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'MASP', 
       type: 'monument', 
       coordinates: { lat: -23.5615, lng: -46.6559, x: 400, y: 550 },
+      symbol: 'palette',
       description: 'Musée d\'Art de São Paulo, célèbre pour son architecture suspendue sur quatre piliers rouges.',
       category: 'tourist'
     },
@@ -81,6 +85,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Marché Municipal', 
       type: 'monument', 
       coordinates: { lat: -23.5417, lng: -46.6297, x: 530, y: 460 },
+      symbol: 'store',
       description: 'Le célèbre Mercadão, connu pour son sandwich à la mortadelle et ses fruits exotiques.',
       category: 'tourist'
     },
@@ -89,6 +94,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Gare de la Luz', 
       type: 'monument', 
       coordinates: { lat: -23.5342, lng: -46.6341, x: 500, y: 430 },
+      symbol: 'train',
       description: 'L\'une des gares ferroviaires les plus emblématiques, abritant le Musée de la Langue Portugaise.',
       category: 'tourist'
     },
@@ -97,6 +103,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Quartier de la Liberté', 
       type: 'monument', 
       coordinates: { lat: -23.5555, lng: -46.6353, x: 520, y: 530 },
+      symbol: 'utensils',
       description: 'Le plus grand quartier de la communauté japonaise hors du Japon, célèbre pour sa gastronomie et ses foires.',
       category: 'tourist'
     },
@@ -105,6 +112,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Beco do Batman', 
       type: 'street', 
       coordinates: { lat: -23.5564, lng: -46.6865, x: 280, y: 580 },
+      symbol: 'palette',
       description: 'Galerie de graffitis à ciel ouvert dans le quartier de Vila Madalena, l\'un des points les plus photogéniques de la ville.',
       category: 'tourist'
     },
@@ -113,6 +121,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Musée de l\'Ipiranga', 
       type: 'monument', 
       coordinates: { lat: -23.5855, lng: -46.6091, x: 620, y: 680 },
+      symbol: 'landmark',
       description: 'Lieu où l\'Indépendance du Brésil a été proclamée, avec des jardins inspirés de Versailles.',
       category: 'tourist'
     },
@@ -151,6 +160,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Stade du Pacaembu', 
       type: 'monument', 
       coordinates: { lat: -23.5475, lng: -46.6669, x: 340, y: 510 },
+      symbol: 'trophy',
       description: 'Stade historique et siège du Musée du Football.',
       category: 'tourist'
     },
@@ -159,6 +169,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Pinacothèque', 
       type: 'monument', 
       coordinates: { lat: -23.5340, lng: -46.6330, x: 515, y: 410 },
+      symbol: 'palette',
       description: 'L\'un des musées d\'art les plus importants du Brésil, situé dans un bâtiment en briques emblématique.',
       category: 'tourist'
     },
@@ -167,6 +178,7 @@ export const SP_MAP_DATA: MapData = {
       name: 'Théâtre Municipal', 
       type: 'monument', 
       coordinates: { lat: -23.5451, lng: -46.6384, x: 470, y: 485 },
+      symbol: 'theater',
       description: 'Un joyau architectural inauguré en 1911, inspiré de l\'Opéra de Paris.',
       category: 'tourist'
     }
