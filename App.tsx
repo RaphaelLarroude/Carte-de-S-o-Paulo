@@ -18,6 +18,9 @@ import {
   Trash2,
   Map as MapIcon,
   Navigation,
+  Car,
+  Bus,
+  TrainFront,
   Clock,
   Navigation2,
   Share as ShareIcon,
@@ -216,6 +219,12 @@ const App: React.FC = () => {
       }
     }
   }, [isAddingMode, selectedLandmark]);
+
+  const openInWaze = () => {
+    if (!selectedLandmark) return;
+    const { lat, lng } = selectedLandmark.coordinates;
+    window.open(`https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes`, '_blank');
+  };
 
   const openInGoogleMaps = () => {
     if (!userLocation || !selectedLandmark) return;
@@ -481,47 +490,97 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* Route HUD (Simplified for Mobile) */}
+        {/* Route HUD (Waze Style Menu) */}
         {travelData && (
           <div className="absolute top-4 left-4 right-16 lg:left-6 lg:right-auto z-[2000] lg:w-96 pointer-events-none">
-            <div className="bg-white/95 backdrop-blur-xl rounded-[24px] shadow-2xl border border-white p-4 pointer-events-auto">
-              <div className="flex justify-between items-center mb-3">
-                <span className="font-black text-[9px] uppercase text-blue-600 tracking-widest">Meilleur Itinéraire</span>
-                <button onClick={() => setTravelData(null)} className="text-slate-400"><X size={16} /></button>
-              </div>
-              
-              <div className="flex gap-1.5 mb-3">
-                <button onClick={() => setTravelMode('car')} className={`flex-1 flex flex-col items-center py-2.5 rounded-xl border transition-all ${travelMode === 'car' ? 'bg-slate-900 border-slate-900 text-white' : 'bg-slate-50 border-transparent text-slate-400'}`}>
-                  <Car size={16}/><span className="text-[9px] font-bold mt-1">Voiture</span>
-                </button>
-                <button onClick={() => setTravelMode('train')} className={`flex-1 flex flex-col items-center py-2.5 rounded-xl border transition-all ${travelMode === 'train' ? 'bg-blue-600 border-blue-600 text-white' : 'bg-slate-50 border-transparent text-slate-400'}`}>
-                  <TrainFront size={16}/><span className="text-[9px] font-bold mt-1">Métro</span>
-                </button>
-                <button onClick={() => setTravelMode('bus')} className={`flex-1 flex flex-col items-center py-2.5 rounded-xl border transition-all ${travelMode === 'bus' ? 'bg-amber-500 border-amber-500 text-white' : 'bg-slate-50 border-transparent text-slate-400'}`}>
-                  <Bus size={16}/><span className="text-[9px] font-bold mt-1">Bus</span>
-                </button>
-              </div>
- 
-              <div className="flex items-center justify-between mb-3 px-1">
-                <div className="flex flex-col">
-                  <p className="text-[8px] font-bold text-slate-400 uppercase">Distance</p>
-                  <p className="text-sm font-black text-slate-800">{travelData[travelMode].distanceKm} km</p>
+            <div className="bg-white rounded-[28px] shadow-2xl border border-slate-100 overflow-hidden pointer-events-auto flex flex-col">
+              {/* Waze-style Top Header */}
+              <div className="bg-blue-500 p-4 flex justify-between items-center text-white">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                    <Navigation2 size={18} fill="white" />
+                  </div>
+                  <div>
+                    <p className="font-black text-[10px] uppercase tracking-widest opacity-80">Itinéraire</p>
+                    <h3 className="font-bold text-sm truncate max-w-[200px]">{selectedLandmark?.name}</h3>
+                  </div>
                 </div>
-                <div className="flex flex-col text-right">
-                  <p className="text-[8px] font-bold text-slate-400 uppercase">Temps</p>
-                  <p className="text-sm font-black text-blue-700 flex items-center justify-end gap-1"><Clock size={12}/> {travelData[travelMode].durationMinutes}m</p>
+                <button onClick={() => setTravelData(null)} className="p-2 hover:bg-white/10 rounded-full transition-colors leading-none">
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="p-5 space-y-5">
+                {/* Mode Selector */}
+                <div className="flex gap-2 bg-slate-50 p-1.5 rounded-2xl border border-slate-100">
+                  <button onClick={() => setTravelMode('car')} className={`flex-1 flex flex-col items-center py-2.5 rounded-xl transition-all ${travelMode === 'car' ? 'bg-white shadow-sm text-blue-600 ring-1 ring-slate-200' : 'text-slate-400'}`}>
+                    <Car size={18} fill={travelMode === 'car' ? "currentColor" : "none"}/><span className="text-[9px] font-bold mt-1">Voiture</span>
+                  </button>
+                  <button onClick={() => setTravelMode('train')} className={`flex-1 flex flex-col items-center py-2.5 rounded-xl transition-all ${travelMode === 'train' ? 'bg-white shadow-sm text-indigo-600 ring-1 ring-slate-200' : 'text-slate-400'}`}>
+                    <TrainFront size={18} fill={travelMode === 'train' ? "currentColor" : "none"}/><span className="text-[9px] font-bold mt-1">Métro</span>
+                  </button>
+                  <button onClick={() => setTravelMode('bus')} className={`flex-1 flex flex-col items-center py-2.5 rounded-xl transition-all ${travelMode === 'bus' ? 'bg-white shadow-sm text-amber-500 ring-1 ring-slate-200' : 'text-slate-400'}`}>
+                    <Bus size={18} fill={travelMode === 'bus' ? "currentColor" : "none"}/><span className="text-[9px] font-bold mt-1">Bus</span>
+                  </button>
+                </div>
+ 
+                {/* Stats & Traffic */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-slate-50 p-4 rounded-2xl flex flex-col items-center justify-center border border-slate-100/50">
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Temps estimé</p>
+                    <div className="flex items-center gap-1.5">
+                      <Clock size={16} className="text-blue-500" />
+                      <p className="text-xl font-black text-slate-800">{travelData[travelMode].durationMinutes}m</p>
+                    </div>
+                  </div>
+                  <div className="bg-slate-50 p-4 rounded-2xl flex flex-col items-center justify-center border border-slate-100/50">
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Distance</p>
+                    <div className="flex items-center gap-1.5">
+                      <Compass size={16} className="text-slate-500" />
+                      <p className="text-xl font-black text-slate-800">{travelData[travelMode].distanceKm} <span className="text-xs font-bold text-slate-400 uppercase">km</span></p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Simulated Traffic Info */}
+                <div className="flex items-center gap-3 p-3 bg-emerald-50 text-emerald-700 rounded-xl text-xs font-bold border border-emerald-100">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                  <span>Trafic fluide sur votre trajet</span>
+                </div>
+
+                {/* Transit Lines Section */}
+                {(travelMode === 'train' || travelMode === 'bus') && travelData[travelMode].lines && travelData[travelMode].lines!.length > 0 && (
+                  <div className="space-y-2">
+                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest px-1">Lignes & Connexions</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {travelData[travelMode].lines?.map((line, idx) => (
+                        <div key={idx} className={`px-3 py-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1.5 shadow-sm border ${
+                          travelMode === 'train' ? 'bg-indigo-50 border-indigo-100 text-indigo-700' : 'bg-amber-50 border-amber-100 text-amber-700'
+                        }`}>
+                          {travelMode === 'train' ? <TrainFront size={12} /> : <Bus size={12} />}
+                          {line}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+ 
+                <div className="flex flex-col gap-2 pt-2">
+                  <button onClick={openInWaze} className="w-full flex items-center justify-center gap-3 py-4 bg-sky-400 text-white rounded-2xl font-black text-sm shadow-lg shadow-sky-100 active:scale-95 transition-all">
+                    <Navigation2 size={20} fill="white" />
+                    Ouvrir avec Waze
+                  </button>
+                  <button onClick={openInGoogleMaps} className="w-full py-4 text-slate-400 font-bold text-[11px] uppercase tracking-widest active:opacity-70 transition-all">
+                    Ou avec Google Maps
+                  </button>
                 </div>
               </div>
- 
-              <button onClick={openInGoogleMaps} className="w-full flex items-center justify-center gap-2 py-3 bg-blue-600 text-white rounded-[16px] font-bold text-xs shadow-lg active:scale-95 transition-all">
-                <Navigation2 size={16} fill="white" /> Démarrer la Navigation
-              </button>
             </div>
           </div>
         )}
 
         {/* Selected Landmark Bottom Sheet */}
-        {selectedLandmark && (
+        {selectedLandmark && !travelData && (
           <div className="fixed inset-x-0 bottom-0 z-[4000] lg:left-[380px] p-3 pointer-events-none">
             <div className="bg-white rounded-[32px] shadow-2xl border border-slate-200 pointer-events-auto overflow-hidden w-full max-w-xl mx-auto animate-sheet">
                {/* Handle indicator */}
