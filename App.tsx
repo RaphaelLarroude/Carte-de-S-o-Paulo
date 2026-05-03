@@ -509,7 +509,7 @@ const App: React.FC = () => {
 
         {/* Route HUD (Waze Style Menu) */}
         {travelData && (
-          <div className="absolute top-4 left-4 right-16 lg:left-6 lg:right-auto z-[2000] lg:w-96 pointer-events-none">
+          <div className="absolute top-12 lg:top-4 left-4 right-16 lg:left-6 lg:right-auto z-[2000] lg:w-96 pointer-events-none">
             <div className="bg-white rounded-[28px] shadow-2xl border border-slate-100 overflow-hidden pointer-events-auto flex flex-col transition-all">
               {/* Waze-style Top Header */}
               <div className="bg-blue-500 p-4 flex justify-between items-center text-white">
@@ -598,8 +598,8 @@ const App: React.FC = () => {
 
         {/* Selection Details Sheet */}
         {selectedLandmark && !travelData && (
-          <div className={`fixed inset-x-0 bottom-0 lg:bottom-8 z-[4000] ${isSidebarOpen ? 'lg:left-[380px]' : 'lg:left-0'} lg:px-6 pointer-events-none transition-all duration-300`}>
-            <div className="bg-white/95 backdrop-blur-xl rounded-t-[40px] lg:rounded-[40px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] lg:shadow-[0_20px_50px_rgba(0,0,0,0.15)] border-t lg:border border-white pointer-events-auto overflow-hidden w-full max-w-2xl mx-auto transform transition-all duration-300">
+          <div className={`fixed inset-x-0 top-1/2 -translate-y-1/2 z-[4000] ${isSidebarOpen ? 'lg:left-[380px]' : 'lg:left-0'} lg:px-6 pointer-events-none transition-all duration-300`}>
+            <div className="bg-white/95 backdrop-blur-xl rounded-t-[40px] lg:rounded-[40px] shadow-[0_-10px_40px_rgba(0,0,0,0.1)] lg:shadow-[0_20px_50px_rgba(0,0,0,0.15)] border-t lg:border border-white pointer-events-auto overflow-hidden w-full max-w-2xl mx-auto transform transition-all duration-300`>
                {/* Mobile Drag Handle */}
                <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-4 lg:hidden opacity-50" />
                
